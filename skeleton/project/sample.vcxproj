@@ -133,6 +133,7 @@
     <ClInclude Include="..\include\DescriptorHeap.h" />
     <ClInclude Include="..\include\Device.h" />
     <ClInclude Include="..\include\OffsetAllocator.h" />
+    <ClInclude Include="..\include\TargetView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\App.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="..\src\Device.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\OffsetAllocator.cpp" />
+    <ClCompile Include="..\src\TargetView.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
