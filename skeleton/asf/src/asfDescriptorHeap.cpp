@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// File : DescriptorHeap.cpp
+// File : asfDescriptorHeap.cpp
 // Desc : Descriptor Heap.
 // Copyright(c) Project Asura. All right reserved.
 //-----------------------------------------------------------------------------
@@ -7,8 +7,10 @@
 //-----------------------------------------------------------------------------
 // Includes
 //-----------------------------------------------------------------------------
-#include <DescriptorHeap.h>
+#include <asfDescriptorHeap.h>
 
+
+namespace asf {
 
 ///////////////////////////////////////////////////////////////////////////////
 // DescriptorHeap class
@@ -87,3 +89,5 @@ OffsetHandle DescriptorHeap::Alloc(uint32_t count)
 //-----------------------------------------------------------------------------
 void DescriptorHeap::Free(OffsetHandle& handle)
 { m_Allocator.Free(handle); }
+
+} // namespace asf

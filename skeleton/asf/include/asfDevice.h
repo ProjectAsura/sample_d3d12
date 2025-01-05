@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// File : Device.h
+// File : asfDevice.h
 // Desc : Device.
 // Copyright(c) Project Asura. All right reserved.
 //-----------------------------------------------------------------------------
@@ -8,6 +8,7 @@
 //-----------------------------------------------------------------------------
 // Includes
 //-----------------------------------------------------------------------------
+#include <vector>
 #include <d3d12.h>
 #include <dxgi1_6.h>
 
@@ -18,6 +19,18 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
 
+
+namespace asf {
+
+///////////////////////////////////////////////////////////////////////////////
+// ResolutionInfo
+///////////////////////////////////////////////////////////////////////////////
+struct ResolutionInfo
+{
+    uint32_t        Width;
+    uint32_t        Height;
+    DXGI_RATIONAL   RefreshRate;
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 // DeviceDesc structure
@@ -52,6 +65,11 @@ ID3D12Device8* GetD3D12Device();
 IDXGIFactory7* GetDXGIFactory();
 
 //-----------------------------------------------------------------------------
+//! @brief      解像度情報を取得します.
+//-----------------------------------------------------------------------------
+bool GetResolutionInfo(IDXGIOutput* pOutput, DXGI_FORMAT format, std::vector<ResolutionInfo>& result);
+
+//-----------------------------------------------------------------------------
 //! @brief      nullptr を考慮して解放処理を行います.
 //-----------------------------------------------------------------------------
 template<typename T>
@@ -63,3 +81,5 @@ void SafeRelease(T*& ptr)
         ptr = nullptr;
     }
 }
+
+} // namespace asf

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// File : Device.cpp
+// File : asfDevice.cpp
 // Desc : Device.
 // Copyright(c) Project Asura. All right reserved.
 //-----------------------------------------------------------------------------
@@ -8,10 +8,15 @@
 // Includes
 //-----------------------------------------------------------------------------
 #include <cstdint>
-#include <Device.h>
 #include <strsafe.h>
 #include <ShlObj.h>
 #include <wrl/client.h>
+#include <algorithm>
+#include <tuple>
+#include <asfDevice.h>
+
+
+namespace asf {
 
 template<typename T>
 using RefPtr = Microsoft::WRL::ComPtr<T>;
@@ -235,3 +240,44 @@ ID3D12Device8* GetD3D12Device()
 //-----------------------------------------------------------------------------
 IDXGIFactory7* GetDXGIFactory()
 { return g_pDXGIFactory; }
+
+//-----------------------------------------------------------------------------
+//      解像度情報を取得します.
+//-----------------------------------------------------------------------------
+bool GetResolutionInfo(IDXGIOutput* pOutput, DXGI_FORMAT format, std::vector<ResolutionInfo>& infos)
+{
+    if (pOutput == nullptr)
+    { return false; }
+
+    UINT count = 0;
+    auto hr = pOutput->GetDisplayModeList(format, DXGI_ENUM_MODES_SCALING, &count, nullptr);
+    if (FAILED(hr) || count == 0)
+    { return false; }
+
+    std::vector<DXGI_MODE_DESC> descs;
+    descs.resize(count);
+
+    hr = pOutput->GetDisplayModeList(format, DXGI_ENUM_MODES_SCALING, &count, descs.data());
+    if (FAILED(hr))
+    { return false; }
+
+    infos.resize(count);
+    for(size_t i=0; i<infos.size(); ++i)
+    {
+        infos[i].Width          = descs[i].Width;
+        infos[i].Height         = descs[i].Height;
+        infos[i].RefreshRate    = descs[i].RefreshRate;
+    }
+
+    // 解像度が大きい順にする.
+    std::sort(infos.begin(), infos.end(), [](ResolutionInfo& lhs, ResolutionInfo& rhs)
+    {
+        auto refreshRateLhs = double(lhs.RefreshRate.Numerator) / double(lhs.RefreshRate.Denominator);
+        auto refreshRateRhs = double(rhs.RefreshRate.Numerator) / double(rhs.RefreshRate.Denominator);
+        return std::tie(lhs.Width, lhs.Height, refreshRateLhs) > std::tie(rhs.Width, rhs.Height, refreshRateRhs);
+    });
+
+    return true;
+}
+
+} // namespace asf

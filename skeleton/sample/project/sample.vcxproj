@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include;$(ProjectDir)..\..\asf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include;$(ProjectDir)..\..\asf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,19 +129,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\App.h" />
-    <ClInclude Include="..\include\DescriptorHeap.h" />
-    <ClInclude Include="..\include\Device.h" />
-    <ClInclude Include="..\include\OffsetAllocator.h" />
-    <ClInclude Include="..\include\TargetView.h" />
+    <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\SampleApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\App.cpp" />
-    <ClCompile Include="..\src\DescriptorHeap.cpp" />
-    <ClCompile Include="..\src\Device.cpp" />
-    <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\OffsetAllocator.cpp" />
-    <ClCompile Include="..\src\TargetView.cpp" />
+    <ProjectReference Include="..\..\asf\project\asf.vcxproj">
+      <Project>{8a76de0e-cfbc-4e7b-be67-ee3fcdc5216e}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\SampleApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

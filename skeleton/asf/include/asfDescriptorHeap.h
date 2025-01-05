@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// File : DescriptorHeap.h
+// File : asfDescriptorHeap.h
 // Desc : Descriptor Heap.
 // Copyright(c) Project Asura. All right reserved.
 //-----------------------------------------------------------------------------
@@ -10,8 +10,10 @@
 //-----------------------------------------------------------------------------
 #include <cstdint>
 #include <d3d12.h>
-#include <OffsetAllocator.h>
+#include <asfOffsetAllocator.h>
 
+
+namespace asf {
 
 ///////////////////////////////////////////////////////////////////////////////
 // DescriptorHeap class
@@ -55,3 +57,5 @@ private:
     //=========================================================================
     /* NOTHING */
 };
+
+} // namespace asf

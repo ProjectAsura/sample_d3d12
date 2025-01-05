@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// File : App.cpp
+// File : asfApp.cpp
 // Desc : Application.
 // Copyright(c) Project Asura. All right reserved.
 //-----------------------------------------------------------------------------
@@ -7,8 +7,11 @@
 //-----------------------------------------------------------------------------
 // Includes
 //-----------------------------------------------------------------------------
-#include <App.h>
+#include <asfApp.h>
+#include <Windows.h>
 
+
+namespace asf {
 
 ///////////////////////////////////////////////////////////////////////////////
 // App class
@@ -127,6 +130,9 @@ LRESULT App::WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
     auto instance = reinterpret_cast<App*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
+    // 古いWM_MOUSEWHEELの定義.
+    const UINT OLD_WM_MOUSEWHEEL = 0x020A;
+
     switch(msg)
     {
     case WM_CREATE:
@@ -164,6 +170,52 @@ LRESULT App::WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
         { instance->OnChar(uint32_t(wp)); }
         return 0;
 
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONUP:
+    case WM_LBUTTONDBLCLK:
+    case WM_MBUTTONDOWN:
+    case WM_MBUTTONUP:
+    case WM_MBUTTONDBLCLK:
+    case WM_RBUTTONDOWN:
+    case WM_RBUTTONUP:
+    case WM_RBUTTONDBLCLK:
+    case WM_XBUTTONDOWN:
+    case WM_XBUTTONUP:
+    case WM_XBUTTONDBLCLK:
+    case WM_MOUSEHWHEEL:
+    case OLD_WM_MOUSEWHEEL:
+        if (instance)
+        {
+            int x = LOWORD(lp);
+            int y = HIWORD(lp);
+
+            int wheel = 0;
+            if (msg == WM_MOUSEHWHEEL
+             || msg == OLD_WM_MOUSEWHEEL)
+            {
+                POINT pt = {};
+                pt.x = x;
+                pt.y = y;
+
+                ScreenToClient(hWnd, &pt);
+                x = pt.x;
+                y = pt.y;
+
+                wheel += int(HIWORD(wp));
+            }
+
+            int state = LOWORD(wp);
+
+            auto left   = !!(state & MK_LBUTTON);
+            auto middle = !!(state & MK_MBUTTON);
+            auto right  = !!(state & MK_RBUTTON);
+            auto side1  = !!(state & MK_XBUTTON1);
+            auto side2  = !!(state & MK_XBUTTON2);
+
+            instance->OnMouse(x, y, wheel, left, middle, right, side1, side2);
+        }
+        return 0;
+
     case WM_PAINT:
         if (instance)
         { instance->OnRender(); }
@@ -176,3 +228,5 @@ LRESULT App::WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
     return DefWindowProc(hWnd, msg, wp, lp);
 }
+
+} // namespace asf

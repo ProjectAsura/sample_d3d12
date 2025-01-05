@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// File : TargetView.h
+// File : asfTargetView.h
 // Desc : Target View
 // Copyright(c) Project Asura. All right reserved.
 //-----------------------------------------------------------------------------
@@ -11,8 +11,10 @@
 #include <cstdint>
 #include <d3d12.h>
 #include <dxgi1_6.h>
-#include <DescriptorHeap.h>
+#include <asfDescriptorHeap.h>
 
+
+namespace asf {
 
 ///////////////////////////////////////////////////////////////////////////////
 // TargetDesc structure
@@ -71,3 +73,5 @@ private:
     DescriptorHeap* m_pHeap     = nullptr;
     OffsetHandle    m_HandleDSV = {};
 };
+
+} // namespace asf

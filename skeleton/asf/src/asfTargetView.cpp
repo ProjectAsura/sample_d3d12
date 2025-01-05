@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------------
-// File : TargetView.cpp
+// File : asfTargetView.cpp
 // Desc : Target View.
 // Copyright(c) Project Asura. All right reserved.
 //-----------------------------------------------------------------------------
@@ -7,8 +7,10 @@
 //-----------------------------------------------------------------------------
 // Includes
 //-----------------------------------------------------------------------------
-#include <TargetView.h>
+#include <asfTargetView.h>
 
+
+namespace asf {
 
 ///////////////////////////////////////////////////////////////////////////////
 // ColorTarget class
@@ -421,3 +423,5 @@ D3D12_CPU_DESCRIPTOR_HANDLE DepthTarget::GetHandleCPU() const
 
     return {};
 }
+
+} // namespace asf
